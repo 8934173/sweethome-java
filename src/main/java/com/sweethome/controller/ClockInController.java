@@ -69,6 +69,7 @@ public class ClockInController {
         String userDetails = (String)JwtUtil.parseToken(header).getBody().get("userDetails");
         UserEntity userEntity = JSON.parseObject(userDetails, UserEntity.class);
         Object school = userEntity.getSchool();
+
         TeacherEntity teacher = JSON.parseObject(JSON.toJSONString(school), TeacherEntity.class);
         List<ClassEntity> classByTeacher = schoolClassService.getClassByTeacher(teacher.getTeaId());
         return R.ok().put("data", classByTeacher);

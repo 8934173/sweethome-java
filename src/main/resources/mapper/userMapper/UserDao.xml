@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.sweethome.dao.UserDao">
+    <select id="queryByUserName" resultType="com.sweethome.entities.UserEntity">
+        select * from sys_user where username = #{username}
+    </select>
+    <update id="lockOrUnlockAccount">
+        update sys_user set `account_non_locked`=#{status} where `uid`=#{uid}
+    </update>
+    <update id="deleteUserByUid">
+        update sys_user set `enabled` = #{enabled} where `uid`=#{uid}
+    </update>
+</mapper>

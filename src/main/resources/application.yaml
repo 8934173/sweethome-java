@@ -1,0 +1,42 @@
+# mybatis plus 配置
+spring:
+  datasource:
+    username: root
+    password: kk1743684221
+    url: jdbc:mysql://localhost:3306/home?useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  redis:
+    connect-timeout: 2000
+    host: localhost
+    password:
+    port: 6379
+
+#mapper映射文件
+mybatis-plus:
+  mapper-locations: classpath:/mapper/**/*.xml
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
+
+logging:
+  level:
+    com.sweethome:
+      debug
+
+sina:
+  http: https://interface.sina.cn/news/wap/fymap2020_data.d.json
+
+tencent:
+  http: https://view.inews.qq.com/g2/getOnsInfo?name=disease_h5
+
+vaccines:
+  http: https://api.inews.qq.com/newsqa/v1/automation/modules/list?modules=VaccineTopData
+
+classifyByVaccine:
+  http: https://api.inews.qq.com/newsqa/v1/automation/modules/list
+
+baidu:
+  http: https://api.map.baidu.com/location/ip
+  ak: CIwpCpFmQRmGvMyoeHy0nIOdC2nzTgIK
+

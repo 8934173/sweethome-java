@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sweethome.dao.TeacherDao">
+    <update id="updateClass">
+        update teacher set ca_ids = #{cla_id} where tea_id = #{tea_id}
+    </update>
+    <select id="getTeacherByUid" resultType="com.sweethome.entities.TeacherEntity" parameterType="java.util.List">
+        select * from teacher where `uid` in
+            <foreach collection="uIds" index="index" item="uid" open="(" separator="," close=")">
+                #{uid}
+            </foreach>
+    </select>
+
+    <update id="deleteRoRecoverTeacherByUid">
+        update teacher set `status`=#{status} where `uid`=#{uid}
+    </update>
+</mapper>

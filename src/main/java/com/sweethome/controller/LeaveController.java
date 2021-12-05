@@ -12,6 +12,7 @@ import com.sweethome.utils.Constant;
 import com.sweethome.utils.JwtUtil;
 import com.sweethome.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -25,9 +26,8 @@ public class LeaveController {
     @Autowired
     private LeaveService leaveService;
 
-    private SchoolClassService schoolClassService;
-
     @PostMapping("/applyForLeaving")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R applyForLeaving(@RequestBody LeaveEntity leaveEntity, HttpServletRequest request) {
         UserEntity userEntity = JwtUtil.getUser(request);
         Object school = userEntity.getSchool();
@@ -62,6 +62,7 @@ public class LeaveController {
     }
 
     @PostMapping("/deleteOne/{outId}")
+    @PreAuthorize("hasAnyAuthority('ROLE_student, ROLE_teacher')")
     public R deleteRecordByOutId(@PathVariable("outId") Long outId) {
         try {
             leaveService.deleteRecordByOutId(outId);
@@ -81,6 +82,7 @@ public class LeaveController {
     }
 
     @PostMapping("/updateLeave")
+    @PreAuthorize("hasAnyAuthority('ROLE_teacher')")
     public R updateLeaveById(@RequestBody LeaveEntity leaveEntity, HttpServletRequest request) {
         UserEntity userEntity = JwtUtil.getUser(request);
         Object school = userEntity.getSchool();

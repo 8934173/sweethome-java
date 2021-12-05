@@ -7,6 +7,7 @@ import com.sweethome.utils.R;
 import com.sweethome.utils.SweetUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -29,6 +30,7 @@ public class UserController {
     private String ak;
 
     @GetMapping("/getAddress")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R getAddress(HttpServletRequest servletRequest, @Param("cr") String cr) {
         String url = baidu+ "?ak="+ak+"&coor="+cr;
         return restTemplate.getForObject(url, R.class);

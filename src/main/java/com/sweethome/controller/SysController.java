@@ -19,6 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -55,6 +56,7 @@ public class SysController {
     }
 
     @GetMapping("/getUsersByAdmin")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R getUsersByAdmin(PageVo params) {
         PageUtil usersByAdmin = userService.getUsersByAdmin(params);
         return R.ok().put("data", usersByAdmin);
@@ -66,7 +68,13 @@ public class SysController {
         return R.ok().put("data", allRole);
     }
 
+    /**
+     * 老师添加学生功能还未完成
+     * @param userEntityVo 用户
+     * @return 响应
+     */
     @PostMapping("/addUser")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R saveUser(@RequestBody UserEntityVo userEntityVo) {
         try {
             String password = userEntityVo.getPassword();
@@ -95,6 +103,7 @@ public class SysController {
     }
 
     @PostMapping("/lockOrUnlockAccount")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R lockOrUnlockAccount(
             @RequestParam("uid") String uid,
             @RequestParam("status") Integer status) {
@@ -103,6 +112,7 @@ public class SysController {
     }
 
     @PostMapping("/deleteUserByAdmin")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R deleteUserByAdmin(@RequestParam("uid") String uid, @RequestParam("role") Integer role) {
         try {
             userService.deleteAndUserByUid(uid, role);

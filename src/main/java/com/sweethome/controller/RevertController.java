@@ -7,6 +7,7 @@ import com.sweethome.service.RevertService;
 import com.sweethome.utils.JwtUtil;
 import com.sweethome.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,6 +22,7 @@ public class RevertController {
     private RevertService revertService;
 
     @PostMapping("/applyForRevert")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R applyForLeaving(@RequestBody RevertEntity revertEntity, HttpServletRequest request) {
         UserEntity userEntity = JwtUtil.getUser(request);
         Object school = userEntity.getSchool();
@@ -36,6 +38,7 @@ public class RevertController {
     }
 
     @GetMapping("/getRevertEntitiesByStuId")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R getLeaveEntitiesByStuId(
             HttpServletRequest request,
             @PathParam("auditStatus") Integer auditStatus,
@@ -53,6 +56,7 @@ public class RevertController {
     }
 
     @PostMapping("/deleteOne/{outId}")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R deleteRecordByOutId(@PathVariable("outId") Long outId) {
         try {
             revertService.deleteRecordByOutId(outId);
@@ -72,6 +76,7 @@ public class RevertController {
     }
 
     @PostMapping("/updateRevert")
+    @PreAuthorize("hasAuthority('ROLE_teacher')")
     public R updateLeaveById(@RequestBody RevertEntity revertEntity, HttpServletRequest request) {
         UserEntity userEntity = JwtUtil.getUser(request);
         Object school = userEntity.getSchool();

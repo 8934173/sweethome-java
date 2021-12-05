@@ -9,6 +9,7 @@ import com.sweethome.service.SchoolClassService;
 import com.sweethome.utils.JwtUtil;
 import com.sweethome.utils.R;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,6 +23,7 @@ public class SchoolClassController {
     private SchoolClassService schoolClassService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R saveSchoolClass(@RequestBody ClassEntity classEntity) {
         try {
             schoolClassService.saveSchoolClass(classEntity);
@@ -33,6 +35,7 @@ public class SchoolClassController {
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R deleteSchoolClass(
             @RequestParam("caId") Long caId,
             @RequestParam("teacherId") Long teaId,

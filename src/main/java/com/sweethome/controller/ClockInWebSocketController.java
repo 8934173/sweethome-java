@@ -14,9 +14,6 @@ import java.io.IOException;
 @RequestMapping("/clockInMessage")
 public class ClockInWebSocketController {
 
-//    @Autowired
-//    private SimpMessagingTemplate simpMessagingTemplate;
-
     @GetMapping("/send/{uid}")
     public R sentMessageByUid(@RequestParam("message") String message, @PathVariable("uid") String uid) {
         try {
@@ -27,10 +24,4 @@ public class ClockInWebSocketController {
             return R.error();
         }
     }
-
-//    @MessageMapping("/hello")
-//    @SendTo()
-//    public void greeting(String message) {
-//        simpMessagingTemplate.convertAndSend("/topic/greetings", message);
-//    }
 }

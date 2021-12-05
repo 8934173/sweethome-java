@@ -38,6 +38,7 @@ public class ClockInController {
     private RedisT redisT;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R saveClockIn(@Validated({AddGroup.class}) @RequestBody ClockInEntity clock) {
         clockInService.saveClockIn(clock);
         return R.ok();
@@ -52,18 +53,21 @@ public class ClockInController {
     }
 
     @PostMapping("/update")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R updateClockInById(@Validated({UpdateGroup.class}) @RequestBody ClockInEntity clockInEntity) {
         boolean update = clockInService.updateClockInByCid(clockInEntity);
         return update ? R.ok() : R.error();
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R deleteClockInByCid(@RequestParam String cid) {
         boolean delete = clockInService.deleteClockInByCid(cid);
         return R.ok().put("data", delete);
     }
 
     @GetMapping("/getClockInByTeacher")
+    @PreAuthorize("hasAuthority('ROLE_teacher')")
     public R getClockInByTeacher(HttpServletRequest request) {
         String header = request.getHeader(Constant.TOKEN);
         String userDetails = (String)JwtUtil.parseToken(header).getBody().get("userDetails");
@@ -76,6 +80,7 @@ public class ClockInController {
     }
 
     @GetMapping("/receive/{uid}")
+    @PreAuthorize("hasAuthority('ROLE_student')")
     public R receiveReminder(@PathVariable("uid") String uid) {
         try {
             redisT.del(uid);

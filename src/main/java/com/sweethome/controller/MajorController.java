@@ -6,6 +6,7 @@ import com.sweethome.service.MajorService;
 import com.sweethome.utils.R;
 import com.sweethome.valid.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,12 +18,14 @@ public class MajorController {
     private MajorService majorService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R saveMajor(@Validated({AddGroup.class}) @RequestBody MajorEntity major) {
         majorService.saveMajor(major);
         return R.ok();
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R deleteMajorById(@RequestParam("maId") Long maId){
         try {
             boolean b = majorService.deleteMajorById(maId);

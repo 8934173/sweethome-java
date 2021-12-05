@@ -6,6 +6,7 @@ import com.sweethome.service.CollegeService;
 import com.sweethome.utils.R;
 import com.sweethome.valid.AddGroup;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,7 @@ public class CollegeController {
     private CollegeService collegeService;
 
     @PostMapping("/save")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R saveCollegeOne(@Validated({AddGroup.class}) @RequestBody CollegeEntity college) {
         boolean b = collegeService.saveCollegeOne(college);
         return b ? R.ok() : R.error(BizCodeEnum.SAVE_EXCEPTION.getCode(), BizCodeEnum.SAVE_EXCEPTION.getMsg());
@@ -31,6 +33,7 @@ public class CollegeController {
     }
 
     @PostMapping("/delete")
+    @PreAuthorize("hasAuthority('ROLE_ADMIN_USER')")
     public R deleteCollegeById(@RequestParam("coId") Long coId) {
         try {
             boolean b = collegeService.deleteCollegeById(coId);
